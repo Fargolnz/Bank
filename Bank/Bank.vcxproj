@@ -18,6 +18,14 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\BaseEntity.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="header\BaseDatabase.h" />
+    <ClInclude Include="header\BaseEntity.h" />
+    <ClInclude Include="header\BaseEntityTemplateCheck.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
