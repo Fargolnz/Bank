@@ -14,7 +14,7 @@ class BaseDatabase
 private:
 	std::string filename;  // CSV file name
 
-	// This function splits the given string according to its delimeter
+	// This function splits the given string according to its delimiter
 	std::vector<std::string> splitString(const std::string& str, char delimiter)
 	{
 		std::vector<std::string> tokens;
