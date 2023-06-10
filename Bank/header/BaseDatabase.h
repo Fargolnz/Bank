@@ -14,6 +14,7 @@ class BaseDatabase
 private:
 	std::string filename;  // CSV file name
 
+	// This function splits the given string according to its delimeter
 	std::vector<std::string> splitString(const std::string& str, char delimiter)
 	{
 		std::vector<std::string> tokens;
@@ -31,6 +32,7 @@ private:
 public:
 	BaseDatabase(std::string filename) : filename(filename) {}
 
+	// Load objects from file
 	std::vector<T*> load()
 	{
 		std::vector<T*> entities;
@@ -52,6 +54,7 @@ public:
 		return entities;
 	}
 
+	// Save objects to file
 	void save(std::vector<T>& entities)
 	{
 		std::ofstream file(filename);
