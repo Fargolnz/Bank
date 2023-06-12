@@ -1,3 +1,6 @@
+
+// This header checks whether T is valid or not.
+
 #pragma once
 #include "BaseEntity.h"
 

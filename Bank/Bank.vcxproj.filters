@@ -15,11 +15,26 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AccountDatabase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\BaseEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LoanDatabase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TransactionDatabase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UserDatabase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="header\AccountDatabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="header\BaseDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -27,6 +42,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\BaseEntityTemplateCheck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\LoanDatabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\TransactionDatabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\UserDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

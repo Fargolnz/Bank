@@ -19,12 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AccountDatabase.cpp" />
     <ClCompile Include="src\BaseEntity.cpp" />
+    <ClCompile Include="src\LoanDatabase.cpp" />
+    <ClCompile Include="src\TransactionDatabase.cpp" />
+    <ClCompile Include="src\UserDatabase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="header\AccountDatabase.h" />
     <ClInclude Include="header\BaseDatabase.h" />
     <ClInclude Include="header\BaseEntity.h" />
     <ClInclude Include="header\BaseEntityTemplateCheck.h" />
+    <ClInclude Include="header\LoanDatabase.h" />
+    <ClInclude Include="header\TransactionDatabase.h" />
+    <ClInclude Include="header\UserDatabase.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

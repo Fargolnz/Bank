@@ -1,11 +1,11 @@
 #pragma once
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 #include <type_traits>
-#include "BaseEntityTemplateCheck.h"
 #include <fstream>
 #include <sstream>
+#include "BaseEntityTemplateCheck.h"
 
 template<typename T>
 class BaseDatabase
@@ -14,7 +14,7 @@ class BaseDatabase
 private:
 	std::string filename;  // CSV file name
 
-	// This function splits the given string according to its delimiter
+	// This function splits the given string according to its delimiter.
 	std::vector<std::string> splitString(const std::string& str, char delimiter)
 	{
 		std::vector<std::string> tokens;
@@ -32,29 +32,30 @@ private:
 public:
 	BaseDatabase(std::string filename) : filename(filename) {}
 
-	// Load objects from file
+	// Load objects from file.
 	std::vector<T*> load()
 	{
 		std::vector<T*> entities;
 		std::ifstream file(filename);
 		std::string line;
 
-		while (getline(file, line))
-		{
-			std::vector<std::string> fields = splitString(line, ',');
+		if (file.is_open())
+			while (getline(file, line))
+			{
+				std::vector<std::string> fields = splitString(line, ',');
 
-			T entity;
-			T* createdEntity = entity.fromString(fields);
+				T entity;
+				T* createdEntity = entity.fromString(fields);		// Creates object from given tokens
 
-			entities.push_back(createdEntity);
-		}
+				entities.push_back(createdEntity);
+			}
 
 		file.close();
 
 		return entities;
 	}
 
-	// Save objects to file
+	// Save objects to file.
 	void save(std::vector<T>& entities)
 	{
 		std::ofstream file(filename);

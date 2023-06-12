@@ -10,10 +10,10 @@ public:
 
 	int getId() const;
 
-	// Read object from file
+	// Read object from file.
 	virtual BaseEntity* fromString(std::vector<std::string> entityFields) const = 0;
 
-	// Write object to file
+	// Write object to file.
 	virtual std::string toString() const = 0;
 
 protected:
