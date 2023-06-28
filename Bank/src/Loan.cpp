@@ -11,12 +11,12 @@ void Loan::setNextId(int nextId)
 
 Loan::Loan() {}
 
-Loan::Loan(int id, int accountId, double totalAmount, double leftAmount, double rate, std::time_t createDate)
-	: BaseEntity(id), accountId(accountId), totalAmount(totalAmount), leftAmount(leftAmount), rate(rate), createDate(createDate)
+Loan::Loan(int id, int accountId, double totalAmount, double leftAmount, double rate, LoanStatusEnum status, std::time_t createDate)
+	: BaseEntity(id), accountId(accountId), totalAmount(totalAmount), leftAmount(leftAmount), rate(rate), status(status), createDate(createDate)
 {}
 
-Loan::Loan(int accountId, double totalAmount, double leftAmount, double rate, std::time_t createDate)
-	: accountId(accountId), totalAmount(totalAmount), leftAmount(leftAmount), rate(rate), createDate(createDate)
+Loan::Loan(int accountId, double totalAmount, double leftAmount, double rate = 20, LoanStatusEnum status = Awaitence, std::time_t createDate = time(nullptr))
+	: accountId(accountId), totalAmount(totalAmount), leftAmount(leftAmount), rate(rate), status(status), createDate(createDate)
 {
 	setId(nextId++);
 }
@@ -41,9 +41,19 @@ double Loan::getRate() const
 	return rate;
 }
 
+LoanStatusEnum Loan::getStatus() const
+{
+	return status;
+}
+
 time_t Loan::getCreateDate() const
 {
 	return createDate;
+}
+
+void Loan::setStatus(LoanStatusEnum status)
+{
+	this->status = status;
 }
 
 
@@ -60,6 +70,15 @@ string Loan::toString() const
 	loanToString += ",";
 	loanToString += to_string(this->rate);
 	loanToString += ",";
+
+	switch (status)
+	{
+		case Accepted: {loanToString += "Accepted"; break; }
+		case Awaitence: {loanToString += "Awaitence"; break; }
+		case Declined: {loanToString += "Declined"; break; }
+	}
+
+	loanToString += ",";
 	long long longDate = this->createDate;
 	loanToString += to_string(longDate);
 
@@ -73,10 +92,19 @@ Loan* Loan::fromString(vector<string> entityFields) const
 	double totalAmount = stod(entityFields[2]);
 	double leftAmount = stod(entityFields[3]);
 	double rate = stod(entityFields[4]);
-	long long longDate = stoll(entityFields[5]);
+	LoanStatusEnum status;
+
+	if (entityFields[5] == "Accepted")
+		status = Accepted;
+	else if (entityFields[5] == "Awaitence")
+		status = Awaitence;
+	else if (entityFields[5] == "Declined")
+		status = Declined;
+
+	long long longDate = stoll(entityFields[6]);
 	std::time_t createDate = longDate;
 
-	Loan* loan = new Loan(id, accountId, totalAmount, leftAmount, rate, createDate);
+	Loan* loan = new Loan(id, accountId, totalAmount, leftAmount, rate, status, createDate);
 
 	return loan;
 }
