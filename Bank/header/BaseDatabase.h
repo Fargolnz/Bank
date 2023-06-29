@@ -71,4 +71,28 @@ public:
 
 		file.close();
 	}
+
+	std::vector<T*> reload()
+	{
+		std::vector<T*> entities;
+		std::ifstream file(filename);
+		std::string line;
+
+		if (file.is_open())
+			while (getline(file, line))
+			{
+				if (line.empty())
+					continue;
+				std::vector<std::string> fields = splitString(line, ',');
+
+				T entity;
+				T* createdEntity = entity.fromString_reload(fields);		// Creates object from given tokens
+
+				entities.push_back(createdEntity);
+			}
+
+		file.close();
+
+		return entities;
+	}
 };

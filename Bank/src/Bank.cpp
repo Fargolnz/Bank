@@ -8,7 +8,7 @@
 #include <conio.h>
 #include "../Header/UserService.h"
 #include "../Header/UserSession.h"
-#include "../Additional sources/di.hpp"
+#include "../Additional Sources/di.hpp"
 
 using namespace std;
 
@@ -125,7 +125,7 @@ int main()
                 {
                     cout << "Choose a task\n\n1: Show accounts\n2: New transaction\n"
                         << "3: Show balance \n4: Show accounts transactions\n5: Show an account's loan\n"
-                        << "6: Request to open a new account\n7: close an existing account\n"
+                        << "6: Request to open a new account\n7: Close an existing account\n"
                         << "8: Make a loan request\n9: Deposit cash into an account\n"
                         << "10: Change password\n11: Change phone number\n12: Logout\n->";
                     cin >> Customer_choice;
@@ -145,7 +145,7 @@ int main()
                     catch (int error)
                     {
                         if (error == 0)
-                            cerr << "Invalid birthdate; You must be over 18 to register in our bank\n";
+                            cerr << "Invalid birthdate; You must be over 18 to register in our bank!\n";
                     }
                     cout << endl << "Press any key to continue!\n";
                     _getch();
@@ -162,13 +162,14 @@ int main()
                     catch (int error)
                     {
                         if (error == 0)
-                            cerr << "Invalid birthdate; You must be over 18 to register in our bank\n";
+                            cerr << "Invalid birthdate; You must be over 18 to register in our bank!\n";
                     }
                     cout << endl << "Press any key to continue!\n";
                     _getch();
                     system("cls");
                     break;
                 }
+
                 case 3:
                 {
                     userService.DeleteUser(Employee);
@@ -177,6 +178,7 @@ int main()
                     system("cls");
                     break;
                 }
+
                 case 4:
                 {
                     userService.DeleteUser(Customer);
@@ -185,6 +187,7 @@ int main()
                     system("cls");
                     break;
                 }
+
                 case 5:
                 {
                     userService.ShowEmployees();
@@ -223,7 +226,7 @@ int main()
                 case 9:
                 {
                     int userId;
-                    cout << "Enter user Id\n->";
+                    cout << "Enter the user Id that you want to see its accounts\n->";
                     cin >> userId;
                     cout << "\n";
                     userService.ShowAccounts(userId);
@@ -236,7 +239,7 @@ int main()
                 case 10:
                 {
                     int accountId;
-                    cout << "Enter account Id\n->";
+                    cout << "Enter the account Id that you want to see its transactions\n->";
                     cin >> accountId;
                     cout << "\n";
                     userService.ShowTransactions(userSession, accountId);
@@ -249,7 +252,7 @@ int main()
                 case 11:
                 {
                     int userId;
-                    cout << "Enter user Id\n->";
+                    cout << "Enter the user Id that you want to see its loans\n->";
                     cin >> userId;
                     cout << "\n";
                     userService.ShowLoans(userId);
@@ -279,7 +282,7 @@ int main()
                     catch (int error)
                     {
                         if (error == 0)
-                            cerr << "Invalid birthdate; You must be over 18 to register in our bank\n";
+                            cerr << "Invalid birthdate; You must be over 18 to register in our bank!\n";
                     }
                     cout << endl << "Press any key to continue!\n";
                     _getch();
@@ -308,7 +311,7 @@ int main()
                 case 4:
                 {
                     int userId;
-                    cout << "Enter user Id\n->";
+                    cout << "Enter the user Id that you want to see its accounts\n->";
                     cin >> userId;
                     cout << "\n";
                     userService.ShowAccounts(userId);
@@ -373,13 +376,13 @@ int main()
                     system("cls");
                     break;
                 }
+
                 case 3:
                 {
                     int accountId;
-                    userService.ShowAccounts(userSession.getId());
-                    cout << "\nEnter the account id\n->";
+                    cout << "\nEnter the account id that you want to see its balance\n->";
                     cin >> accountId;
-                    cout << "\n\n";
+                    cout << "\n";
                     userService.CheckBalance(accountId);
                     cout << endl << "Press any key to continue!\n";
                     _getch();
@@ -387,11 +390,12 @@ int main()
                     break;
 
                 }
+
                 case 4:
                 {
                     int accountId;
                     userService.ShowAccounts(userSession.getId());
-                    cout << "\nEnter the account id\n->";
+                    cout << "\nEnter the account id that you want to see its transactions\n->";
                     cin >> accountId;
                     cout << "\n\n";
                     userService.ShowTransactions(userSession, accountId);
@@ -400,11 +404,12 @@ int main()
                     system("cls");
                     break;
                 }
+
                 case 5:
                 {
                     int accountId;
                     userService.ShowAccounts(userSession.getId());
-                    cout << "\nEnter the account id\n->";
+                    cout << "\nEnter the account id that you want to see its loans\n->";
                     cin >> accountId;
                     cout << "\n\n";
                     userService.ShowLoans(accountId);
@@ -413,6 +418,7 @@ int main()
                     system("cls");
                     break;
                 }
+
                 case 6:
                 {
                     userService.NewAccount(userSession.getId());
@@ -435,7 +441,7 @@ int main()
                 {
                     int accountId;
                     userService.ShowAccounts(userSession.getId());
-                    cout << "\nEnter the account id that you want to get a loan on\n->";
+                    cout << "\nEnter the account id that you want to get a loan on (You can only get a loan on active accounts!)\n->";
                     cin >> accountId;
                     cout << "\n\n";
                     userService.NewLoan(accountId);
@@ -444,6 +450,7 @@ int main()
                     system("cls");
                     break;
                 }
+
                 case 9:
                 {
                     userService.Deposit(userSession.getId());

@@ -108,3 +108,26 @@ Loan* Loan::fromString(vector<string> entityFields) const
 
 	return loan;
 }
+
+Loan* Loan::fromString_reload(std::vector<std::string> entityFields) const
+{
+	int id = stoi(entityFields[0]);
+	int accountId = stoi(entityFields[1]);
+	double totalAmount = stod(entityFields[2]);
+	double leftAmount = stod(entityFields[3]);
+	double rate = stod(entityFields[4]);
+	LoanStatusEnum status;
+
+	if (entityFields[5] == "Accepted")
+		status = Accepted;
+	else if (entityFields[5] == "Awaitence")
+		status = Awaitence;
+	else if (entityFields[5] == "Declined")
+		status = Declined;
+
+	long long longDate = stoll(entityFields[6]);
+	std::time_t createDate = longDate;
+
+	Loan* loan = new Loan(id,accountId, totalAmount, leftAmount, rate, status, createDate);
+	return loan;
+}

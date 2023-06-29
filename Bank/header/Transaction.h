@@ -25,6 +25,7 @@ public:
 	static void setNextId(int nextId);
 
 	Transaction* fromString(std::vector<std::string> entityFields) const override;
+	Transaction* fromString_reload(std::vector<std::string> entityFields) const override;
 	std::string toString() const override;
 };
 

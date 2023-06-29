@@ -22,6 +22,8 @@ public:
 	static void setNextId(int nextId);
 
 	Account* fromString(std::vector<std::string> entityFields) const override;
+	Account* fromString_reload(std::vector<std::string> entityFields) const override;
+
 	std::string toString() const override;
 
 private:

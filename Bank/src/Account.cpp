@@ -118,3 +118,33 @@ Account* Account::fromString(vector<string> entityFields) const
 
 	return account;
 }
+
+Account* Account::fromString_reload(std::vector<std::string> entityFields) const
+{
+	int id = stoi(entityFields[0]);
+	int userId = stoi(entityFields[1]);
+	double balance = stod(entityFields[2]);
+	AccountTypeEnum type;
+	AccountStatusEnum status;
+
+	if (entityFields[3] == "Current")
+		type = Current;
+	else if (entityFields[3] == "LongTerm")
+		type = LongTerm;
+	else if (entityFields[3] == "ShortTerm")
+		type = ShortTerm;
+
+	if (entityFields[4] == "Active")
+		status = Active;
+	else if (entityFields[4] == "Pending")
+		status = Pending;
+	else if (entityFields[4] == "Deactive")
+		status = Deactive;
+
+	long long ld = stoll(entityFields[5]);
+	std::time_t createDate = ld;
+
+	Account* account = new Account(id,userId, balance, type, status, createDate);
+
+	return account;
+}

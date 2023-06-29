@@ -53,18 +53,6 @@ public:
         }
     }
 
-    void edit(T& entity)
-    {
-        for (auto it = entities.begin(); it != entities.end(); ++it)
-        {
-            if ((*it)->getId() == entity.getId())
-            {
-                *it = &entity;
-                break;
-            }
-        }
-    }
-
     T get(int entityId)
     {
         for (T* entity : entities)
@@ -88,6 +76,6 @@ public:
 
     void reloadEntities()
     {
-        entities = database.load();
+        entities = database.reload();
     }
 };

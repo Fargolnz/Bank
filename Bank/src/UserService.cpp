@@ -51,8 +51,10 @@ void UserService::logout(bool* is_loggedin)
 void UserService::PasswordManipulator(string& password)
 {
     char ch;
-    while ((ch = _getch()) != '\r') {  // Loop until Enter key is pressed
-        if (ch == '\b') {  // Handle backspace
+    while ((ch = _getch()) != '\r')  // Loop until Enter key is pressed
+    { 
+        if (ch == '\b') // Handle backspace
+        {  
             if (!password.empty()) {
                 password.pop_back();
                 std::cout << "\b \b";  // Erase the last character from the console
@@ -64,7 +66,6 @@ void UserService::PasswordManipulator(string& password)
         }
     }
     std::cout << std::endl;
-    cout << "\n";
 }
 
 void UserService::unixToDatetime(time_t unix)
@@ -142,8 +143,8 @@ void UserService::AddUser(RoleEnum calledRole)
     cout << "Create an account for your ";
     switch (calledRole)
     {
-        case 2: {cout << "Employee:\n"; break; }
-        case 3: {cout << "Customer:\n"; break; }
+        case 2: {cout << "employee:\n\n"; break; }
+        case 3: {cout << "customer:\n\n"; break; }
     }
     this->NewAccount(user.getId());
 }
@@ -174,7 +175,7 @@ void UserService::NewAccount(int userId)
     Account account(userId, balance, type, status = Pending, time(nullptr));
     accountRepository.add(account);
     accountRepository.save();
-    accountRepository.reloadEntities();
+   accountRepository.reloadEntities();
 
     cout << "Account request sent successfully!\n";
 }
@@ -207,7 +208,9 @@ void UserService::NewTransaction(UserSession userSession)
                 string password;
                 cout << "Enter password\n->";
                 UserService::PasswordManipulator(password);
-                User* user = userRepository.getById(senderAccountId);
+                cout << "\n";
+                Account* account = accountRepository.getById(senderAccountId);
+                User* user = userRepository.getById(account->getUserId());
                 StringHasher hasher;
                 string dbPassword = user->getPassword();	// User password
                 bool correctPassword = hasher.verify(password, dbPassword);		// Verify password
@@ -222,15 +225,12 @@ void UserService::NewTransaction(UserSession userSession)
                     transactionRepository.reloadEntities();
                     cout << "Transaction was successful!\n";
                 }
-
                 else
                     cerr << "Wrong password!\n";
             }
-
             else
                 cerr << "Insufficient balance:(\n";
         }
-
         else
             cerr << "Invalid account id!\n";
     }
@@ -261,7 +261,9 @@ void UserService::NewTransaction(UserSession userSession)
                 string password;
                 cout << "Enter password\n->";
                 UserService::PasswordManipulator(password);
-                User* user = userRepository.getById(senderAccountId);
+                cout << "\n";
+                Account* account = accountRepository.getById(senderAccountId);
+                User* user = userRepository.getById(account->getUserId());
                 StringHasher hasher;
                 string dbPassword = user->getPassword();	// User password
                 bool correctPassword = hasher.verify(password, dbPassword);		// Verify password
@@ -276,15 +278,12 @@ void UserService::NewTransaction(UserSession userSession)
                     transactionRepository.reloadEntities();
                     cout << "Transaction was successful!\n";
                 }
-
                 else
                     cerr << "Wrong password!\n";
             }
-
             else
                 cerr << "Insufficient balance:(\n";
         }
-
         else
             cerr << "Invalid account id!\n";
     }
@@ -311,6 +310,8 @@ void UserService::NewLoan(int accountId)
         cin.ignore();
 
         Loan loan(accountId, totalAmount, leftAmount = totalAmount, rate, status = Awaitence, time(nullptr));
+        accountRepository.Deposit(accountId, totalAmount);
+
         loanRepository.add(loan);
         loanRepository.save();
         loanRepository.reloadEntities();
@@ -397,57 +398,61 @@ bool UserService::ShowAllAccounts(AccountStatusEnum status)
     {
         for (auto account : accountRepository.getAll())
         {
-            cout << left << setw(15) << account->getId() << setw(10) << account->getUserId()
-                << setw(10) << account->getBalance();
-
-            switch (account->getType())
+            if (account->getStatus() == Active)
             {
-                case 1:
+                found = true;
+                cout << left << setw(15) << account->getId() << setw(10) << account->getUserId()
+                    << setw(10) << account->getBalance();
+
+                switch (account->getType())
                 {
-                    cout << left << setw(15) << "Current";
-                    break;
+                    case 1:
+                    {
+                        cout << left << setw(15) << "Current";
+                        break;
+                    }
+
+                    case 2:
+                    {
+                        cout << left << setw(15) << "Long Term";
+                        break;
+                    }
+
+                    case 3:
+                    {
+                        cout << left << setw(15) << "Short Term";
+                        break;
+                    }
                 }
 
-                case 2:
+                switch (account->getStatus())
                 {
-                    cout << left << setw(15) << "Long Term";
-                    break;
+                    case 1:
+                    {
+                        cout << left << setw(18) << "Active";
+                        break;
+                    }
+
+                    case 2:
+                    {
+                        cout << left << setw(18) << "Pending";
+                        break;
+                    }
+
+                    case 3:
+                    {
+                        cout << left << setw(18) << "Deactive";
+                        break;
+                    }
                 }
 
-                case 3:
-                {
-                    cout << left << setw(15) << "Short Term";
-                    break;
-                }
+                cout << left << setw(15);
+                unixToDatetime(account->getCreateDate());
             }
-
-            switch (account->getStatus())
-            {
-                case 1:
-                {
-                    cout << left << setw(18) << "Active";
-                    break;
-                }
-
-                case 2:
-                {
-                    cout << left << setw(18) << "Pending";
-                    break;
-                }
-
-                case 3:
-                {
-                    cout << left << setw(18) << "Deactive";
-                    break;
-                }
-            }
-
-            cout << left << setw(15);
-            unixToDatetime(account->getCreateDate());
         }
     }
 
-    if (status == Pending)
+    else if (status == Pending)
     {
         for (auto account : accountRepository.getAll())
         {
@@ -459,44 +464,40 @@ bool UserService::ShowAllAccounts(AccountStatusEnum status)
 
                 switch (account->getType())
                 {
-                case 1:
-                {
-                    cout << left << setw(15) << "Current";
-                    break;
-                }
-
-                case 2:
-                {
-                    cout << left << setw(15) << "Long Term";
-                    break;
-                }
-
-                case 3:
-                {
-                    cout << left << setw(15) << "Short Term";
-                    break;
-                }
+                    case 1:
+                    {
+                        cout << left << setw(15) << "Current";
+                        break;
+                    }
+                    case 2:
+                    {
+                        cout << left << setw(15) << "Long Term";
+                        break;
+                    }
+                    case 3:
+                    {
+                        cout << left << setw(15) << "Short Term";
+                        break;
+                    }
                 }
 
                 switch (account->getStatus())
                 {
-                case 1:
-                {
-                    cout << left << setw(18) << "Active";
-                    break;
-                }
-
-                case 2:
-                {
-                    cout << left << setw(18) << "Pending";
-                    break;
-                }
-
-                case 3:
-                {
-                    cout << left << setw(18) << "Deactive";
-                    break;
-                }
+                    case 1:
+                    {
+                        cout << left << setw(18) << "Active";
+                        break;
+                    }
+                    case 2:
+                    {
+                        cout << left << setw(18) << "Pending";
+                        break;
+                    }
+                    case 3:
+                    {
+                        cout << left << setw(18) << "Deactive";
+                        break;
+                    }
                 }
 
                 cout << left << setw(15);
@@ -586,7 +587,7 @@ void UserService::ShowTransactions(UserSession userSession, int accountId)
                 unixToDatetime(transaction->getDate());
             }
         }
-        cout << "\nCurrent Balance : "; 
+        cout << "\n";
         this->CheckBalance(accountId);
     }
 
@@ -613,6 +614,8 @@ void UserService::ShowTransactions(UserSession userSession, int accountId)
                 unixToDatetime(transaction->getDate());
             }
         }
+        cout << "\n";
+        this->CheckBalance(accountId);
     }
 }
 
@@ -747,6 +750,7 @@ void UserService::ChangeLoanStatus()
     loanRepository.save();
     loanRepository.reloadEntities();
 }
+
 void UserService::Deposit(int userId)
 {
     int accountId;
@@ -766,6 +770,7 @@ void UserService::Deposit(int userId)
     else
         cerr << "The entered accountId is not vaild!\n";
 }
+
 void UserService::CloseAccount(int userId)
 {
     int accountId;
@@ -780,6 +785,7 @@ void UserService::CloseAccount(int userId)
         accountRepository.remove(accountId);
         accountRepository.save();
         accountRepository.reloadEntities();
+        cout << "\nAccount closed successfully!\n";
     }
 
     else
@@ -825,15 +831,15 @@ void UserService::DeleteUser(RoleEnum role)
     {
         int userId;
         this->ShowEmployees();
-        cout << "\nChoose the user id that you want to remove\n->";
+        cout << "\nChoose the employee id that you want to remove\n->";
         cin >> userId;
         User* user = userRepository.getById(userId);
         if (user != nullptr)
         {
-            cout << "\nUser removed successfuly!\n";
             userRepository.remove(userId);
             userRepository.save();
             userRepository.reloadEntities();
+            cout << "\nUser removed successfuly!\n";
         }
         else
             cerr << "Invalid user id!\n";
@@ -842,19 +848,19 @@ void UserService::DeleteUser(RoleEnum role)
     {
         int userId;
         this->ShowCustomers();
-        cout << "\nChoose the user id that you want to remove\n->";
+        cout << "\nChoose the customer id that you want to remove\n->";
         cin >> userId;
         User* user = userRepository.getById(userId);
-        if(user != nullptr)
+
+        if (user != nullptr)
         {
-            cout << "\nUser removed successfuly!\n";
             userRepository.remove(userId);
             userRepository.save();
             userRepository.reloadEntities();
+            cout << "\nUser removed successfuly!\n";
         }
         else
             cerr << "Invalid user id!\n";
-        this->ShowEmployees();
     }
 }
 
@@ -863,9 +869,8 @@ void UserService::CheckBalance(int accountId)
     Account* account = accountRepository.getById(accountId);
     if (account != nullptr)
     {
-        cout << account->getBalance();
+        cout << "Current balance: " << account->getBalance() << "\n";
     }
     else
         cerr << "Account id is not valid!\n";
-
 }

@@ -70,3 +70,17 @@ Transaction* Transaction::fromString(vector<string> entityStr) const
 
 	return transaction;
 }
+
+Transaction* Transaction::fromString_reload(vector<string> entityStr) const
+{
+	int id = stoi(entityStr[0]);
+	int sender = stoi(entityStr[1]);
+	int reciever = stoi(entityStr[2]);
+	double amount = stod(entityStr[3]);
+
+	time_t transactionDate = static_cast<time_t>(stol(entityStr[4]));
+
+	Transaction* transaction = new Transaction(id,sender, reciever, amount, transactionDate);
+
+	return transaction;
+}

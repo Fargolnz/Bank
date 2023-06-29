@@ -1,7 +1,7 @@
-#include "../Header/StringHasher.h"
 #include <iostream>
 #include <string>
 #include <openssl/evp.h>
+#include "../Header/StringHasher.h"
 
 using namespace std;
 

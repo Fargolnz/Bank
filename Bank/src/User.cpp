@@ -165,3 +165,31 @@ User* User::fromString(std::vector<string> entityFields) const
 
 	return user;
 }
+User* User::fromString_reload(std::vector<std::string> entityFields) const
+{
+	int userId = stoi(entityFields[0]);
+	string nationalCode = entityFields[1];
+	string name = entityFields[2];
+	string phone = entityFields[3];
+	string password = entityFields[4];
+	long long longBirthDate = stoll(entityFields[5]);
+	long long joinDate = stoll(entityFields[6]);
+	GenderEnum gender;
+	RoleEnum role;
+
+	if (entityFields[7] == "Male")
+		gender = Male;
+	else if (entityFields[7] == "Female")
+		gender = Female;
+
+	if (entityFields[8] == "Admin")
+		role = Admin;
+	else if (entityFields[8] == "Employee")
+		role = Employee;
+	else if (entityFields[8] == "Customer")
+		role = Customer;
+
+	User* user = new User(userId ,nationalCode, name, phone, password, longBirthDate, joinDate, gender, role);
+
+	return user;
+}

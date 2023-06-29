@@ -21,6 +21,8 @@ public:
 	static void setNextId(int nextId);
 
 	Loan* fromString(std::vector<std::string> entityFields) const override;
+	Loan* fromString_reload(std::vector<std::string> entityFields) const override;
+
 	std::string toString() const override;
 
 private:
