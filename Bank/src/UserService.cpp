@@ -304,12 +304,13 @@ void UserService::NewLoan(int accountId)
         cin >> totalAmount;
         cin.ignore();
 
-
         cout << "Enter the rate of loan: ";
         cin >> rate;
         cin.ignore();
 
-        Loan loan(accountId, totalAmount, leftAmount = totalAmount, rate, status = Awaitence, time(nullptr));
+        leftAmount = ((rate / 100) * totalAmount) + totalAmount;
+
+        Loan loan(accountId, totalAmount, leftAmount, rate, status = Awaitence, time(nullptr));
         accountRepository.Deposit(accountId, totalAmount);
 
         loanRepository.add(loan);

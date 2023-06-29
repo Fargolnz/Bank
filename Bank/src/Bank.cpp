@@ -124,7 +124,7 @@ int main()
                 case 3:
                 {
                     cout << "Choose a task\n\n1: Show accounts\n2: New transaction\n"
-                        << "3: Show balance \n4: Show accounts transactions\n5: Show an account's loan\n"
+                        << "3: Show balance \n4: Show accounts transactions\n5: Show an account's loans\n"
                         << "6: Request to open a new account\n7: Close an existing account\n"
                         << "8: Make a loan request\n9: Deposit cash into an account\n"
                         << "10: Change password\n11: Change phone number\n12: Logout\n->";
