@@ -1,5 +1,5 @@
-#include "../header/TransactionDatabase.h"
+#include "../Header/TransactionDatabase.h"
 
 using namespace std;
 
-TransactionDatabase::TransactionDatabase(string transactionFilename) : BaseDatabase<Transaction>(transactionFilename) {}
+TransactionDatabase::TransactionDatabase() : BaseDatabase<Transaction>("../x64/Debug/Transactions.txt") {}

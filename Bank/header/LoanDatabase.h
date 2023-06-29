@@ -6,6 +6,6 @@
 class LoanDatabase : public BaseDatabase<Loan>
 {
 public:
-	LoanDatabase(std::string loanFileName);
+	LoanDatabase();
 };
 

@@ -16,7 +16,7 @@ public:
 	AccountTypeEnum getType() const;
 	AccountStatusEnum getStatus() const;
 	std::time_t getCreateDate() const;
-	void setBalance(int balance);
+	void setBalance(double balance);
 	void setStatus(AccountStatusEnum status);
 
 	static void setNextId(int nextId);

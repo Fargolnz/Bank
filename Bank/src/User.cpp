@@ -1,4 +1,4 @@
-#include "User.h"
+#include "../Header/User.h"
 
 using namespace std;
 
@@ -62,6 +62,16 @@ GenderEnum User::getGender() const
 RoleEnum User::getRole() const
 {
 	return role;
+}
+
+void User::setPassword(string password)
+{
+	this->password = password;
+}
+
+void User::setPhone(string phone)
+{
+	this->phone = phone;
 }
 
 void User::setNextId(int nextId)
@@ -151,7 +161,7 @@ User* User::fromString(std::vector<string> entityFields) const
 	else if (entityFields[8] == "Customer")
 		role = Customer;
 
-	User* user = new User(userId, nationalCode, name, phone, password, longBirthDate, joinDate, gender, role);
+	User* user = new User(nationalCode, name, phone, password, longBirthDate, joinDate, gender, role);
 
 	return user;
 }

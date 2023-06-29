@@ -1,4 +1,4 @@
-#include "StringHasher.h"
+#include "../Header/StringHasher.h"
 #include <iostream>
 #include <string>
 #include <openssl/evp.h>

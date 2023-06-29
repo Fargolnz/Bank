@@ -42,6 +42,8 @@ public:
 		if (file.is_open())
 			while (getline(file, line))
 			{
+				if (line.empty())
+					continue;
 				std::vector<std::string> fields = splitString(line, ',');
 
 				T entity;
@@ -56,13 +58,13 @@ public:
 	}
 
 	// Save objects to file.
-	void save(std::vector<T>& entities)
+	void save(std::vector<T*> entities)
 	{
 		std::ofstream file(filename);
 
-		for (const T& entity : entities)
+		for (const T* entity : entities)
 		{
-			std::string csvLine = entity.toString();
+			std::string csvLine = entity->toString();
 
 			file << csvLine << std::endl;
 		}

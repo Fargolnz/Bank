@@ -39,6 +39,8 @@ public:
     GenderEnum getGender() const;
     RoleEnum getRole() const;
 
+    void setPassword(std::string password);
+    void setPhone(std::string phone);
     static void setNextId(int nextId);
     
     User* fromString(std::vector<std::string> entityFields) const override;

@@ -19,20 +19,49 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Account.cpp" />
     <ClCompile Include="src\AccountDatabase.cpp" />
+    <ClCompile Include="Src\AccountRepository.cpp" />
+    <ClCompile Include="Src\Bank.cpp" />
     <ClCompile Include="src\BaseEntity.cpp" />
+    <ClCompile Include="Src\Loan.cpp" />
     <ClCompile Include="src\LoanDatabase.cpp" />
+    <ClCompile Include="Src\LoanRepository.cpp" />
+    <ClCompile Include="Src\StringHasher.cpp" />
+    <ClCompile Include="Src\Transaction.cpp" />
     <ClCompile Include="src\TransactionDatabase.cpp" />
+    <ClCompile Include="Src\TransactionRepository.cpp" />
+    <ClCompile Include="Src\User.cpp" />
     <ClCompile Include="src\UserDatabase.cpp" />
+    <ClCompile Include="Src\UserRepository.cpp" />
+    <ClCompile Include="Src\UserService.cpp" />
+    <ClCompile Include="Src\UserSession.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Header\Account.h" />
     <ClInclude Include="header\AccountDatabase.h" />
+    <ClInclude Include="Header\AccountRepository.h" />
+    <ClInclude Include="Header\AccountStatusEnum.h" />
+    <ClInclude Include="Header\AccountTypeEnum.h" />
     <ClInclude Include="header\BaseDatabase.h" />
     <ClInclude Include="header\BaseEntity.h" />
     <ClInclude Include="header\BaseEntityTemplateCheck.h" />
+    <ClInclude Include="Header\BaseRepository.h" />
+    <ClInclude Include="Header\GenderEnum.h" />
+    <ClInclude Include="Header\Loan.h" />
     <ClInclude Include="header\LoanDatabase.h" />
+    <ClInclude Include="Header\LoanRepository.h" />
+    <ClInclude Include="Header\LoanStatusEnum.h" />
+    <ClInclude Include="Header\RoleEnum.h" />
+    <ClInclude Include="Header\StringHasher.h" />
+    <ClInclude Include="Header\Transaction.h" />
     <ClInclude Include="header\TransactionDatabase.h" />
+    <ClInclude Include="Header\TransactionRepository.h" />
+    <ClInclude Include="Header\User.h" />
     <ClInclude Include="header\UserDatabase.h" />
+    <ClInclude Include="Header\UserRepository.h" />
+    <ClInclude Include="Header\UserService.h" />
+    <ClInclude Include="Header\UserSession.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

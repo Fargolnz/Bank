@@ -1,5 +1,5 @@
-#include "../header/LoanDatabase.h"
+#include "../Header/LoanDatabase.h"
 
 using namespace std;
 
-LoanDatabase::LoanDatabase(string loanFilename) : BaseDatabase<Loan>(loanFilename) {}
+LoanDatabase::LoanDatabase() : BaseDatabase<Loan>("../x64/Debug/Loans.txt") {}

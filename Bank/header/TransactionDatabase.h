@@ -6,6 +6,6 @@
 class TransactionDatabase : public BaseDatabase<Transaction>
 {
 public:
-	TransactionDatabase(std::string transactionFilename);
+	TransactionDatabase();
 };
 

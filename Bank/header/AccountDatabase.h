@@ -6,6 +6,6 @@
 class AccountDatabase : public BaseDatabase<Account>
 {
 public:
-	AccountDatabase(std::string accountFileName);
+	AccountDatabase();
 };
 

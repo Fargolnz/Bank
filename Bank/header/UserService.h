@@ -20,14 +20,19 @@ public:
 	void NewLoan(int accountId);
 	void ShowEmployees();
 	void ShowCustomers();
-	void ShowAllAccounts(AccountStatusEnum status);
+	bool ShowAllAccounts(AccountStatusEnum status);
 	void ShowAccounts(int userId);
 	void ShowTransactions(UserSession userSession, int accountId);
 	void ShowAllLoans(LoanStatusEnum status);
 	void ShowLoans(int accountId);
 	void ChangeAccountStatus();
 	void ChangeLoanStatus();
+	void Deposit(int accountId);
 	void CloseAccount(int userId);
+	void ChangeUserPassword(int userId);
+	void ChangePhone(int userId);
+	void DeleteUser(RoleEnum role);
+	void CheckBalance(int accountId);
 private:
 	UserRepository& userRepository;
 	AccountRepository& accountRepository;

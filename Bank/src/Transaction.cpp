@@ -1,4 +1,4 @@
-#include "Transaction.h"
+#include "../Header/Transaction.h"
 
 using namespace std;
 
@@ -13,8 +13,7 @@ Transaction::Transaction() {}
 
 Transaction::Transaction(int id, int senderAccountId, int receiverAccountId, double amount, time_t date)
 	: BaseEntity(id), senderAccountId(senderAccountId), receiverAccountId(receiverAccountId), amount(amount), date(date)
-{
-}
+{}
 
 Transaction::Transaction(int senderAccountId, int receiverAccountId, double amount, time_t date)
 	: senderAccountId(senderAccountId), receiverAccountId(receiverAccountId), amount(amount), date(date)
@@ -45,9 +44,7 @@ time_t Transaction::getDate() const
 string Transaction::toString() const
 {
 	string transactionStr = "";
-
 	transactionStr += to_string(getId());
-
 	transactionStr += ",";
 	transactionStr += to_string(senderAccountId);
 	transactionStr += ",";

@@ -1,4 +1,4 @@
-#include "Account.h"
+#include "../Header/Account.h"
 
 using namespace std;
 
@@ -46,7 +46,7 @@ time_t Account::getCreateDate() const
 	return createDate;
 }
 
-void Account::setBalance(int balance)
+void Account::setBalance(double balance)
 {
 	this->balance = balance;
 }
@@ -69,9 +69,11 @@ string Account::toString() const
 	switch (type)
 	{
 		case LongTerm: {accountToString += "LongTerm"; break; }
-		case ShortTerm: {accountToString += "ShorTerm"; break; }
+		case ShortTerm: {accountToString += "ShortTerm"; break; }
 		case Current: {accountToString += "Current"; break; }
 	}
+
+	accountToString += ",";
 
 	switch (status)
 	{

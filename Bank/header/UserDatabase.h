@@ -6,6 +6,6 @@
 class UserDatabase : public BaseDatabase<User>
 {
 public:
-	UserDatabase(std::string usersFilename);
+	UserDatabase();
 };
 

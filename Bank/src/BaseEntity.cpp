@@ -1,4 +1,4 @@
-#include "../header/BaseEntity.h"
+#include "../Header/BaseEntity.h"
 
 BaseEntity::BaseEntity() {}
 BaseEntity::BaseEntity(int id) : id(id) {}

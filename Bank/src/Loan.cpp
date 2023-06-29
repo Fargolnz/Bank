@@ -1,4 +1,4 @@
-#include "Loan.h"
+#include "../Header/Loan.h"
 
 using namespace std;
 
@@ -104,7 +104,7 @@ Loan* Loan::fromString(vector<string> entityFields) const
 	long long longDate = stoll(entityFields[6]);
 	std::time_t createDate = longDate;
 
-	Loan* loan = new Loan(id, accountId, totalAmount, leftAmount, rate, status, createDate);
+	Loan* loan = new Loan(accountId, totalAmount, leftAmount, rate, status, createDate);
 
 	return loan;
 }

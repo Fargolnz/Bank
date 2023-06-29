@@ -2,7 +2,7 @@
 #include <ctime>
 #include <stdexcept>
 #include <conio.h>
-#include "UserService.h"
+#include "../Header/UserService.h"
 
 using namespace std;
 
@@ -50,21 +50,20 @@ void UserService::logout(bool* is_loggedin)
 
 void UserService::PasswordManipulator(string& password)
 {
-    vector<char> pass = {};
-    while (true)
-    {
-        pass.push_back(_getch());
-        if (pass.back() == 13) break;
-        _putch('*');
+    char ch;
+    while ((ch = _getch()) != '\r') {  // Loop until Enter key is pressed
+        if (ch == '\b') {  // Handle backspace
+            if (!password.empty()) {
+                password.pop_back();
+                std::cout << "\b \b";  // Erase the last character from the console
+            }
+        }
+        else {
+            password += ch;
+            std::cout << "*";
+        }
     }
-
-    pass.pop_back();
-
-    for (auto i : pass)
-    {
-        password += i;
-    }
-    getchar();
+    std::cout << std::endl;
     cout << "\n";
 }
 
@@ -108,7 +107,7 @@ void UserService::AddUser(RoleEnum calledRole)
     istringstream ss(stringBirthDate);
     ss >> get_time(&time_struct, "%d/%m/%Y");
     time_t birthDate;
-
+    cout << '\b';
     if (time(nullptr) - mktime(&time_struct) >= 567981000)
     {
         birthDate = mktime(&time_struct);
@@ -139,7 +138,14 @@ void UserService::AddUser(RoleEnum calledRole)
         case 2: {cout << "Employee"; break; }
         case 3: {cout << "Customer"; break; }
     }
-    cout << " added successfully!\n";
+    cout << " added successfully!\n\n\n";
+    cout << "Create an account for your ";
+    switch (calledRole)
+    {
+        case 2: {cout << "Employee:\n"; break; }
+        case 3: {cout << "Customer:\n"; break; }
+    }
+    this->NewAccount(user.getId());
 }
 
 void UserService::NewAccount(int userId)
@@ -381,8 +387,9 @@ void UserService::ShowCustomers()
     }
 }
 
-void UserService::ShowAllAccounts(AccountStatusEnum status)
+bool UserService::ShowAllAccounts(AccountStatusEnum status)
 {
+    bool found = false;
     cout << left << "All accounts list:\n\n" << setw(15) << "Account Id" << setw(10) << "User Id" << setw(10) << "Balance"
         << setw(15) << "Account Type" << setw(18) << "Account Status" << setw(15) << "Create Date" << endl << endl;
 
@@ -446,6 +453,7 @@ void UserService::ShowAllAccounts(AccountStatusEnum status)
         {
             if (account->getStatus() == Pending)
             {
+                found = true;
                 cout << left << setw(15) << account->getId() << setw(10) << account->getUserId()
                     << setw(10) << account->getBalance();
 
@@ -496,6 +504,7 @@ void UserService::ShowAllAccounts(AccountStatusEnum status)
             }
         }
     }
+    return found;
 }
 
 void UserService::ShowAccounts(int userId)
@@ -577,6 +586,8 @@ void UserService::ShowTransactions(UserSession userSession, int accountId)
                 unixToDatetime(transaction->getDate());
             }
         }
+        cout << "\nCurrent Balance : "; 
+        this->CheckBalance(accountId);
     }
 
     else
@@ -682,28 +693,32 @@ void UserService::ShowLoans(int accountId)
 void UserService::ChangeAccountStatus()
 {
     int accountId, choice;
-    this->ShowAllAccounts(AccountStatusEnum::Pending);
-    cout << "\nChoose the account id to accept or decline the request.\nThen choose 1 to accept or 2 to decline\n->";
-    cin >> accountId >> choice;
-    Account* account = accountRepository.getById(accountId);
-
-    if (choice == 1)
+    if (this->ShowAllAccounts(AccountStatusEnum::Pending))
     {
-        account->setStatus(Active);
-        cout << "Status set to active!\n";
-    }
+        cout << "\nChoose the account id to accept or decline the request.\nThen choose 1 to accept or 2 to decline\n->";
+        cin >> accountId >> choice;
+        Account* account = accountRepository.getById(accountId);
 
-    else if (choice == 2)
-    {
-        account->setStatus(Deactive);
-        cout << "Status set to deactive!\n";
-    }
+        if (choice == 1)
+        {
+            account->setStatus(Active);
+            cout << "Status set to active!\n";
+        }
 
+        else if (choice == 2)
+        {
+            account->setStatus(Deactive);
+            cout << "Status set to deactive!\n";
+        }
+
+        else
+            cerr << "Invalid input!\n";
+
+        accountRepository.save();
+        accountRepository.reloadEntities();
+    }
     else
-        cerr << "Invalid input!\n";
-
-    accountRepository.save();
-    accountRepository.reloadEntities();
+        cerr << "There is no Account to check status!\n";
 }
 
 void UserService::ChangeLoanStatus()
@@ -732,7 +747,25 @@ void UserService::ChangeLoanStatus()
     loanRepository.save();
     loanRepository.reloadEntities();
 }
-
+void UserService::Deposit(int userId)
+{
+    int accountId;
+    this->ShowAccounts(userId);
+    cout << "\nEnter the account id that you want to deposit cash to\n->";
+    cin >> accountId;
+    cout << "\n";
+    Account* account = accountRepository.getById(accountId);
+    if (account->getUserId() == userId)
+    {
+        int cash;
+        cout << "Enter the cash amount you want to deposit\n->";
+        cin >> cash;
+        accountRepository.Deposit(accountId, cash);
+        cout << "Deposit was successful!\n";
+    }
+    else
+        cerr << "The entered accountId is not vaild!\n";
+}
 void UserService::CloseAccount(int userId)
 {
     int accountId;
@@ -751,4 +784,88 @@ void UserService::CloseAccount(int userId)
 
     else
         cerr << "Invalid account id!\n";
+}
+
+void UserService::ChangeUserPassword(int userId)
+{
+    string password, newPassword;
+    User* user = userRepository.getById(userId);
+    cout << "Enter your current password\n->";
+    this->PasswordManipulator(password);
+
+    StringHasher hasher; 
+    string dbPassword = user->getPassword();	
+    bool correctPassword = hasher.verify(password, dbPassword);
+
+    if (correctPassword)
+    {
+        cout << "Enter new password\n->";
+        this->PasswordManipulator(newPassword);
+        hasher.hash(newPassword);
+        user->setPassword(newPassword);
+        cout << "Password changed successfully!\n";
+    }
+    else
+        cerr << "Wrong password!\n";
+}
+
+void UserService::ChangePhone(int userId)
+{
+    string newPhone;
+    User* user = userRepository.getById(userId);
+    cout << "Enter new phone number\n->";
+    cin >> newPhone;
+    user->setPhone(newPhone);
+    cout << "Phone number changed successfully!\n";
+}
+
+void UserService::DeleteUser(RoleEnum role)
+{
+    if (role == Employee)
+    {
+        int userId;
+        this->ShowEmployees();
+        cout << "\nChoose the user id that you want to remove\n->";
+        cin >> userId;
+        User* user = userRepository.getById(userId);
+        if (user != nullptr)
+        {
+            cout << "\nUser removed successfuly!\n";
+            userRepository.remove(userId);
+            userRepository.save();
+            userRepository.reloadEntities();
+        }
+        else
+            cerr << "Invalid user id!\n";
+    }
+    else if (role == Customer)
+    {
+        int userId;
+        this->ShowCustomers();
+        cout << "\nChoose the user id that you want to remove\n->";
+        cin >> userId;
+        User* user = userRepository.getById(userId);
+        if(user != nullptr)
+        {
+            cout << "\nUser removed successfuly!\n";
+            userRepository.remove(userId);
+            userRepository.save();
+            userRepository.reloadEntities();
+        }
+        else
+            cerr << "Invalid user id!\n";
+        this->ShowEmployees();
+    }
+}
+
+void UserService::CheckBalance(int accountId)
+{
+    Account* account = accountRepository.getById(accountId);
+    if (account != nullptr)
+    {
+        cout << account->getBalance();
+    }
+    else
+        cerr << "Account id is not valid!\n";
+
 }

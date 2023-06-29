@@ -1,5 +1,5 @@
-#include "../header/UserDatabase.h"
+#include "../Header/UserDatabase.h"
 
 using namespace std;
 
-UserDatabase::UserDatabase(string usersFilename) : BaseDatabase<User>(usersFilename) {}
+UserDatabase::UserDatabase() : BaseDatabase<User>("../x64/Debug/Users.txt") {}
