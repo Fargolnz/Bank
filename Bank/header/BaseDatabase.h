@@ -10,6 +10,7 @@
 template<typename T>
 class BaseDatabase
 {
+	// Checks whether T is valid or not.
 	static_assert(BaseEntityTemplateCheck<T>::value, "T must be derived from BaseEntity");
 private:
 	std::string filename;  // CSV file name
@@ -32,7 +33,7 @@ private:
 public:
 	BaseDatabase(std::string filename) : filename(filename) {}
 
-	// Load objects from file.
+	// Load objects from the file.
 	std::vector<T*> load()
 	{
 		std::vector<T*> entities;
@@ -57,7 +58,7 @@ public:
 		return entities;
 	}
 
-	// Save objects to file.
+	// Saves objects to the file.
 	void save(std::vector<T*> entities)
 	{
 		std::ofstream file(filename);
@@ -72,6 +73,7 @@ public:
 		file.close();
 	}
 
+	// Reloads objects from the file.
 	std::vector<T*> reload()
 	{
 		std::vector<T*> entities;

@@ -9,6 +9,7 @@ using std::vector;
 template<typename T>
 class BaseRepository
 {
+    // Checks whether T is valid or not.
     static_assert(BaseEntityTemplateCheck<T>::value, "T must be derived from BaseEntity");
 
 private:
@@ -21,6 +22,7 @@ protected:
 public:
     BaseRepository(BaseDatabase<T>& database) : database(database), isInitialized(false) {};
     
+    // Loads objects from hard drive to ram.
     void init()
     {
         if (!isInitialized)
@@ -36,11 +38,13 @@ public:
         }
     }
 
+    // Adds the new object to loaded entities.
     void add(T& entity)
     {
         entities.push_back(&entity);
     }
 
+    // Delets the intended object from loaded entities.
     void remove(int entityId)
     {
         for (auto it = entities.begin(); it != entities.end(); ++it)
@@ -53,6 +57,7 @@ public:
         }
     }
 
+    // Returns the address of the object.
     T get(int entityId)
     {
         for (T* entity : entities)
@@ -64,16 +69,19 @@ public:
         }
     }
 
+    // Returns the loaded entities.
     vector<T*> getAll()
     {
         return entities;
     }
 
+    // Saves the loaded entities and their changes to the file.
     void save()
     {
         database.save(entities);
     }
 
+    // Reloads entities from the file.
     void reloadEntities()
     {
         entities = database.reload();

@@ -109,6 +109,7 @@ void UserService::AddUser(RoleEnum calledRole)
     ss >> get_time(&time_struct, "%d/%m/%Y");
     time_t birthDate;
     cout << '\b';
+
     if (time(nullptr) - mktime(&time_struct) >= 567981000)
     {
         birthDate = mktime(&time_struct);
