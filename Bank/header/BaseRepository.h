@@ -22,8 +22,8 @@ protected:
 public:
     BaseRepository(BaseDatabase<T>& database) : database(database), isInitialized(false) {};
     
-    // Loads objects from hard drive to ram.
-    void init()
+    
+    void init() // Loads objects from hard drive to memory.
     {
         if (!isInitialized)
         {
@@ -38,14 +38,14 @@ public:
         }
     }
 
-    // Adds the new object to loaded entities.
-    void add(T& entity)
+    
+    void add(T& entity) // Adds the new object to loaded entities.
     {
         entities.push_back(&entity);
     }
 
-    // Delets the intended object from loaded entities.
-    void remove(int entityId)
+    
+    void remove(int entityId)   // Delets the intended object from loaded entities.
     {
         for (auto it = entities.begin(); it != entities.end(); ++it)
         {
@@ -57,8 +57,8 @@ public:
         }
     }
 
-    // Returns the address of the object.
-    T get(int entityId)
+    
+    T get(int entityId) // Returns the address of the object.
     {
         for (T* entity : entities)
         {
@@ -69,20 +69,20 @@ public:
         }
     }
 
-    // Returns the loaded entities.
-    vector<T*> getAll()
+    
+    vector<T*> getAll() // Returns the loaded entities.
     {
         return entities;
     }
 
-    // Saves the loaded entities and their changes to the file.
-    void save()
+    
+    void save() // Saves the loaded entities and their changes to the file.
     {
         database.save(entities);
     }
 
-    // Reloads entities from the file.
-    void reloadEntities()
+    
+    void reloadEntities()   // Reloads entities from the file.
     {
         entities = database.reload();
     }

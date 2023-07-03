@@ -33,8 +33,8 @@ private:
 public:
 	BaseDatabase(std::string filename) : filename(filename) {}
 
-	// Load objects from the file.
-	std::vector<T*> load()
+	
+	std::vector<T*> load()	// Load objects from the file.
 	{
 		std::vector<T*> entities;
 		std::ifstream file(filename);
@@ -58,8 +58,8 @@ public:
 		return entities;
 	}
 
-	// Saves objects to the file.
-	void save(std::vector<T*> entities)
+	
+	void save(std::vector<T*> entities)	// Saves objects to the file.
 	{
 		std::ofstream file(filename);
 
@@ -73,8 +73,8 @@ public:
 		file.close();
 	}
 
-	// Reloads objects from the file.
-	std::vector<T*> reload()
+	
+	std::vector<T*> reload()	// Reloads objects from the file.
 	{
 		std::vector<T*> entities;
 		std::ifstream file(filename);

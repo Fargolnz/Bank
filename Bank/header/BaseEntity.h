@@ -4,17 +4,16 @@
 class BaseEntity
 {
 public:
+	/*Constructors*/
 	BaseEntity();
 	BaseEntity(int id);
-
+	/*Getters*/
 	int getId() const;
 
-	// Reads object from the file.
-	virtual BaseEntity* fromString(std::vector<std::string> entityFields) const = 0;
-	virtual BaseEntity* fromString_reload(std::vector<std::string> entityFields) const = 0;
+	virtual BaseEntity* fromString(std::vector<std::string> entityFields) const = 0;		// Reads object from the file.
+	virtual BaseEntity* fromString_reload(std::vector<std::string> entityFields) const = 0;	// Reads object from the file(except id).
 
-	// Writes object to the file.
-	virtual std::string toString() const = 0;
+	virtual std::string toString() const = 0;	// Writes object to the file.
 
 protected:
 	int id;

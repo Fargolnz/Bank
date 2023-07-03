@@ -6,8 +6,10 @@
 class UserRepository : public BaseRepository<User>
 {
 public:
+	/*Constructor*/
 	UserRepository(UserDatabase& database);
-	User* getByNationalCode(std::string nationalcode);
-	User* getById(int id);
+
+	User* getByNationalCode(std::string nationalcode);	//Searchs and returns the user (by national code).
+	User* getById(int id); //Searchs and returns the user (by id).
 };
 

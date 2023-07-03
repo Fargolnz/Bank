@@ -11,9 +11,9 @@ class UserService
 public:
 	UserService(UserRepository& userRepository, AccountRepository& accountRepository, TransactionRepository& transactionRepository, LoanRepository& loanRepository);
 	UserSession login(std::string nationalcode, std::string password, int role, bool* is_loggedin);
-	void logout(bool* is_loggedin);
-	static void PasswordManipulator(std::string& password);
-	void unixToDatetime(time_t unix);
+	void logout(bool* is_loggedin); //Logs out of system
+	static void PasswordManipulator(std::string& password); //Manipulats input stream password
+	void unixToDatetime(time_t unix); //Converts unix time to the timestamp
 	void AddUser(RoleEnum);
 	void NewAccount(int userId);
 	void NewTransaction(UserSession userSession);
